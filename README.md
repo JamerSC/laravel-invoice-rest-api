@@ -61,8 +61,22 @@
 
 -   PHPUnit and Pest are testing frameworks for PHP, and Laravel supports both.
     But they have some key differences in style, readability, and developer experience.
--   Test command
--   Creating test file in feature `php artisan make:test UserTest`
+-   `PHPUnit is a unit testing framework for PHP and Laravel provides a seamless way to use it for testing your API`
+
+-   Setup
+-   ✅ Duplicate `.env` file and rename it into `.env.testing`
+-   Create test database `invoice_api_db_test` & Update database name
+-   Clear Caches: It's good practice to clear caches before testing. `php artisan config:clear` & `php artisan cache:clear`
+-   Run Migrations: Run the migrations to set up the test database. `php artisan migrate --env=testing`
+-   Create a Test File `php artisan make:test UserApiTest` This command will create a new file at tests/Feature/UserApiTest.php. Feature tests are ideal for API testing as they test a larger portion of your application, including routing and controllers.
+-   Command Test for Feature only `php artisan test --testsuite=Feature --stop-on-failure`
+-   Use Traits: Open tests/Feature/UserApiTest.php and add the `RefreshDatabase` and `WithoutMiddleware` traits.
+-   `RefreshDatabase:` This trait automatically migrates your test database before each test and rolls back the migrations after. It ensures that each test method runs on a clean, blank database.
+-   `WithoutMiddleware:` This trait disables all middleware for your test. This is useful for isolating your tests from things like CSRF protection, allowing you to focus on the core logic.
+
+-   Specific function `php artisan test --filter=a_user_can_retrieve_their_own_profile`
+
+-   ✅ Others
 -   Creating test file in unit `php artisan make:test UserTest --unit`
 -   Command to run the test `php artisan test`
--   Command Test for Speficic feature `php artisan test --testsuite=Feature --stop-on-failure`
+-   Command Test for Unit only `php artisan test --testsuite=Unit --stop-on-failure`

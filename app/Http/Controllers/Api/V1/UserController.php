@@ -23,7 +23,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $fields = $request->validate([
+            "name"      => "string|required",
+            "email"     => "email|string|required",
+            "password"  => 'string|required|max:15|min:8',
+        ]);
+
+        $user = User::create($fields);
+
+        return response()->json([
+            'message' => 'Create user successfully!',
+            'user' => $user,
+        ],200);
     }
 
     /**
@@ -52,7 +63,24 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::find($id);
+
+        if ($user) {
+            return response()->json([
+                'message'=> 'User not found!',
+            ],404);
+        }
+
+        $user->update($request->only([
+            'name',
+            'email',
+            'password',
+        ]));
+
+        return response()->json([
+            'message'=> 'Update user details successfully!',
+        ]);
+
     }
 
     /**

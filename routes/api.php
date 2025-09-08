@@ -29,6 +29,16 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function(){
         // logout endpoint
         Route::post('/logout', [AuthController::class,'logout']);
+
+
+        Route::get('/profile', function (Request $request) {
+        return response()->json([
+            'name'  => $request->user()->name,
+            'email' => $request->user()->email,
+            ]);
+        });
+
+
         // users api resource endpoint
         Route::apiResource('/users', UserController::class);
         // customers api resource endpoint
