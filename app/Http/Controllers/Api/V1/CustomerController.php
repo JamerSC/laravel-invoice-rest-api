@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\StoreCustomerRequest;
+use App\Http\Requests\V1\UpdateCustomerRequest;
 use App\Http\Resources\V1\CustomerResource;
 use App\Models\Customer;
 use Illuminate\Http\Request;
@@ -62,14 +63,14 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateCustomerRequest $request, string $id)
     {
         // find customer by id
         $customer = Customer::find($id);
 
         if (!$customer) {
             return response()->json([
-                'message'=> 'Customer not found!'
+                'message' => 'Customer not found!'
             ],404);
         }
 
@@ -101,7 +102,7 @@ class CustomerController extends Controller
         // check if not exist
         if (!$customer) {
             return response()->json([
-                'message'=> 'Customer not found'
+                'message' => 'Customer not found'
             ],404);
         }
 
@@ -110,7 +111,7 @@ class CustomerController extends Controller
 
         // request response
         return response()->json([
-            'message'=> 'Task deleted!',
+            'message' => 'Task deleted!',
             new CustomerResource($customer),
         ],204); // Http 204 - No content 
     }

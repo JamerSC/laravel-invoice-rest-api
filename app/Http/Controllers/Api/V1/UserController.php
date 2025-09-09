@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\StoreUserRequest;
+use App\Http\Requests\V1\UpdateUserRequest;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,25 +17,22 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+        
         return UserResource::collection($users);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $fields = $request->validate([
-            "name"      => "string|required",
-            "email"     => "email|string|required",
-            "password"  => 'string|required|max:15|min:8',
-        ]);
+        $fields = $request->validated();
 
         $user = User::create($fields);
 
         return response()->json([
-            'message' => 'Create user successfully!',
-            'user' => $user,
+            'message' => 'Created user successfully!',
+            'user'    => $user,
         ],200);
     }
 
@@ -46,7 +45,7 @@ class UserController extends Controller
         $user = User::find($id);
 
         // check if user is exist
-        if ($user) {
+        if (!$user) {
             return response()->json([
                 'message' => 'User not found',
             ], 404);
@@ -61,13 +60,13 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, string $id)
     {
         $user = User::find($id);
 
-        if ($user) {
+        if (!$user) {
             return response()->json([
-                'message'=> 'User not found!',
+                'message' => 'User not found!',
             ],404);
         }
 
@@ -78,7 +77,8 @@ class UserController extends Controller
         ]));
 
         return response()->json([
-            'message'=> 'Update user details successfully!',
+            'message' => 'Updated user details successfully!',
+            'user'    => new UserResource($user),
         ]);
 
     }
@@ -90,17 +90,17 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        if ($user) {
+        if (!$user) {
             return response()->json([
-                'message'=> 'User not found!',
+                'message' => 'User not found!',
             ],404);
         }
 
         $user->delete();
 
         return response()->json([
-            'message'=> 'Deleted user successfully!',
-            'user' => $user,
+            'message' => 'Deleted user successfully!',
+            'user'    => $user,
         ], 204);
     }
 }

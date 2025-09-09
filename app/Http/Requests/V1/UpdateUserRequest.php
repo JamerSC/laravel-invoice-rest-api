@@ -11,7 +11,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,28 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+
+        switch ($method)
+        {
+            case 'PUT':
+                return 
+                [
+                    'name'     => ['required', 'string', 'max:50'],
+                    'email'    => ['required', 'email', 'max:50'],
+                    'password' => ['required', 'string', 'min:8', 'max:15', 'confirmed'],
+                ];
+            
+            case 'PATCH':
+                return 
+                [
+                    'name'     => ['sometimes', 'required', 'string', 'max:50'],
+                    'email'    => ['sometimes', 'required', 'email', 'max:50'],
+                    'password' => ['sometimes', 'required', 'string', 'min:8', 'max:15', 'confirmed'],
+                ];
+            
+            default:
+                return []; // abort(405, 'Invalid HTTP method'); 
+        }
     }
 }

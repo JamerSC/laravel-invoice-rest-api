@@ -21,21 +21,49 @@ class UpdateCustomerRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name'          => ['required','string'],
-            'type'          => ['in:individual,business'],
-            'address'       => ['required','string'],
-            'city'          => ['required','string'],
-            'province'      => ['required','string'],
-            'postal_code'   => ['required', 'string'],
-        ];
-    }
+        $method = $this->method();
 
+        switch ($method) {
+            case 'PUT':
+                return 
+                [
+                   'name'        => ['required', 'string'],
+                   'type'        => ['in:individual, business'],
+                   'address'     => ['required', 'string'],
+                   'city'        => ['required', 'string'],
+                   'province'    => ['required', 'string'],
+                   'postal_code' => ['required', 'string'],
+                ];
+
+            case 'PATCH':
+                return 
+                [
+                   'name'        => ['sometimes', 'required', 'string'],
+                   'type'        => ['sometimes', 'in:individual, business'],
+                   'address'     => ['sometimes', 'required', 'string'],
+                   'city'        => ['sometimes', 'required', 'string'],
+                   'province'    => ['sometimes', 'required', 'string'],
+                   'postal_code' => ['sometimes', 'required', 'string'],
+                ];
+            
+            default:
+                return []; //abort(405, 'Invalid HTTP method');
+        }
+
+    }
 
     protected function prepareForValidation()
     {
-        $this->merge([
-            'postal_code' => $this->postalCode,
-        ]);
+        // $this->merge([
+        //     'postal_code' => $this->postalCode,
+        // ]);
+
+        // or
+        if($this->has('postalCode'))
+        {
+            $this->merge([
+                'postal_code' => $this->postalCode,
+            ]);
+        }
     }
 }

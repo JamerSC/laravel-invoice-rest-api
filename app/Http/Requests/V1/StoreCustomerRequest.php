@@ -22,11 +22,11 @@ class StoreCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required','string'],
-            'type' => ['in:individual,business'],
-            'address' => ['required','string'],
-            'city' => ['required','string'],
-            'province'=> ['required','string'],
+            'name'        => ['required','string'],
+            'type'        => ['in:individual,business'],
+            'address'     => ['required','string'],
+            'city'        => ['required','string'],
+            'province'    => ['required','string'],
             'postal_code' => ['required', 'string'],
         ];
     }

@@ -18,9 +18,9 @@ class AuthController extends Controller
 
         // create to register new user
         $user = User::create([
-            'name'=> $fields['name'],
-            'email'=> $fields['email'],
-            'password'=> bcrypt($fields['password']),
+            'name'     => $fields['name'],
+            'email'    => $fields['email'],
+            'password' => bcrypt($fields['password']),
         ]);
 
         // create access token
@@ -28,9 +28,9 @@ class AuthController extends Controller
 
         // request response
         return response()->json([
-            'message'=> 'User registered successfully!',
-            'user'=> $user,
-            'token'=> $token,
+            'message' => 'User registered successfully!',
+            'user'    => $user,
+            'token'   => $token,
         ], 201); // Created 201
     }
 
@@ -46,7 +46,7 @@ class AuthController extends Controller
         if (!$user || !Hash::check($fields['password'], $user->password))
         {
             return response()->json([
-                'message'=> 'Invalid email or password',
+                'message' => 'Invalid email or password',
             ], 401); // Unauthorized 401   
         }
 
@@ -55,9 +55,9 @@ class AuthController extends Controller
 
         // request response
         return response()->json([
-            'message'=> 'Login successfully!',
-            'user'=> $user,
-            'token'=> $token,
+            'message' => 'Login successfully!',
+            'user'    => $user,
+            'token'   => $token,
         ], 200); // Ok! 200
     }
 
@@ -68,7 +68,7 @@ class AuthController extends Controller
 
         // request response
         return response()->json([
-            'message'=> 'Logout succeessfully!'
+            'message' => 'Logout succeessfully!'
         ], 200); // Ok! 200
     }
 }

@@ -48,7 +48,7 @@ class InvoiceController extends Controller
 
         if (!$invoice) {
             return response()->json(
-                ['message'=> 'Invoice id not found $id'],
+                ['message' => 'Invoice id not found $id'],
                 404);
         }
 
@@ -67,7 +67,7 @@ class InvoiceController extends Controller
 
         if (!$invoice) {
             return response()->json([
-                'message'=> 'Invoice not found!'
+                'message' => 'Invoice not found!'
             ],404);
         }
 
@@ -79,7 +79,7 @@ class InvoiceController extends Controller
         ]));
 
         return response()->json([
-            'message'=> 'Invoice updated successfully!',
+            'message' => 'Invoice updated successfully!',
             'invoice' => new InvoiceResource($invoice),
         ],200);
     }
@@ -93,14 +93,14 @@ class InvoiceController extends Controller
 
         if (!$invoice) {
             return response()->json([
-                'message'=> 'Invoice not found!'
+                'message' => 'Invoice not found!'
             ],404);
         }
 
         $invoice->delete();
 
         return response()->json([
-            'message'=> 'Deleted successfully!',
+            'message' => 'Deleted successfully!',
             'invoice' => $invoice
         ],204);
     }
