@@ -39,7 +39,7 @@ class UpdateInvoiceRequest extends FormRequest
                 return
                 [
                     'amount'      => ['sometimes', 'required', 'decimal:0,2'],
-                    'status'      => ['sometimes', 'in:billed, paid, void'],
+                    'status'      => ['sometimes', 'in:billed,paid,void'],
                     'billed_date' => ['sometimes', 'required', 'date_format:Y-m-d H:i:s'],
                     'paid_date'   => ['sometimes', 'nullable', 'date_format:Y-m-d H:i:s'],
                     'customer_id' => ['sometimes', 'required', 'exists:customers,id'],

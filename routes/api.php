@@ -30,7 +30,7 @@ Route::prefix('v1')->group(function () {
         // logout endpoint
         Route::post('/logout', [AuthController::class,'logout']);
 
-
+        // @test for phpunit testing
         Route::get('/profile', function (Request $request) {
         return response()->json([
             'name'  => $request->user()->name,
@@ -45,6 +45,9 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('/customers', CustomerController::class);
         // invoices api resource endpoint
         Route::apiResource('/invoices', InvoiceController::class);
+        // invoices custom endpoint
+        Route::patch('/invoices/{id}/mark-as-paid', [InvoiceController::class, 'markAsPaid']);
+        Route::patch('/invoices/{id}/mark-as-void', [InvoiceController::class, 'markAsVoid']);
     });
 });
 

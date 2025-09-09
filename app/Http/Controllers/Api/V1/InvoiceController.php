@@ -48,7 +48,7 @@ class InvoiceController extends Controller
 
         if (!$invoice) {
             return response()->json(
-                ['message' => 'Invoice id not found $id'],
+                ['message' => 'Invoice id not found!'],
                 404);
         }
 
@@ -71,12 +71,35 @@ class InvoiceController extends Controller
             ],404);
         }
 
-        $invoice->update($request->only([
+        // $invoice->update($request->only([
+        //     'amount',
+        //     'status',
+        //     'billed_date',
+        //     'paid_date',
+        //     'customer_id',
+        // ]));
+
+        $data = $request->only([
             'amount',
+            'status',
             'billed_date',
             'paid_date',
             'customer_id',
-        ]));
+        ]);
+
+        // if the status is paid set paid date now
+        if ($data['status'] ?? null === 'paid' && !$invoice->paid_date)
+        {
+            $data['paid_date'] = now();
+        }
+
+        // if the status is paid set paid date now
+        if ($data['status'] ?? null === 'void' && !$invoice->paid_date)
+        {
+            $data['paid_date'] = now();
+        }
+
+        $invoice->update($data);
 
         return response()->json([
             'message' => 'Invoice updated successfully!',
@@ -103,5 +126,89 @@ class InvoiceController extends Controller
             'message' => 'Deleted successfully!',
             'invoice' => $invoice
         ],204);
+    }
+
+    // custom function
+
+    public function markAsPaid(string $id)
+    {
+        $invoice = Invoice::find($id);
+
+        // check if not exist
+        if (!$invoice) 
+        {
+            return response()->json([
+                'message' => 'Invoice not found!'
+            ], 404);
+        }
+
+        // check if status not billed
+        if ($invoice->status !== 'billed') 
+        {
+            return response()->json([
+                'message' => 'Only billed invoices can be marked as paid!',
+            ], 422); // Http code 422 - Unprocessable Content
+        }
+
+        // check if already paid
+        if ($invoice->status === 'paid')
+        {
+            return response()->json([
+                'message' => 'Invoice already marked as paid!',
+                'invoice' => new InvoiceResource($invoice),
+            ],200);
+        }
+
+        // execute update for status as paid & date now
+        $invoice->update([
+            'status'    => 'paid',
+            'paid_date' => now(),
+        ]);
+
+        return response()->json([
+            'message' => 'Invoice marked as paid successfully!',
+            'invoice' => new InvoiceResource($invoice)
+        ],200);
+    }
+
+        public function markAsVoid(string $id)
+    {
+        $invoice = Invoice::find($id);
+
+        // check if not exist
+        if (!$invoice) 
+        {
+            return response()->json([
+                'message' => 'Invoice not found!'
+            ], 404);
+        }
+
+        // check if status not billed & paid
+        if ($invoice->status !== 'billed' && $invoice->status !== 'paid') 
+        {
+            return response()->json([
+                'message' => 'Only billed & paid invoices can be marked as void!',
+            ], 422); // Http code 422 - Unprocessable Content
+        }
+
+        // check if already paid
+        if ($invoice->status === 'void')
+        {
+            return response()->json([
+                'message' => 'Invoice already marked as void!',
+                'invoice' => new InvoiceResource($invoice),
+            ],200);
+        }
+
+        // execute update for status as paid & date now
+        $invoice->update([
+            'status'    => 'void',
+            'paid_date' => now(),
+        ]);
+
+        return response()->json([
+            'message' => 'Invoice marked as void successfully!',
+            'invoice' => new InvoiceResource($invoice)
+        ],200);
     }
 }

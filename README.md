@@ -80,3 +80,15 @@
 -   Creating test file in unit `php artisan make:test UserTest --unit`
 -   Command to run the test `php artisan test`
 -   Command Test for Unit only `php artisan test --testsuite=Unit --stop-on-failure`
+
+### September 9, 2025
+
+1. Pagination -eloquent’s built-in pagination
+
+-   `$users = User::paginate(10);` // standard pagination
+-   `$users = User::simplePaginate(10);` // lightweight pagination
+-   `$users = User::cursorPaginate(10);` // best for large tables
+
+2. Sort
+3. Filter
+4. Search
