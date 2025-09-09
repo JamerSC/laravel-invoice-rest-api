@@ -14,10 +14,36 @@ class InvoiceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $invoices = Invoice::all();
+        // query customers
+        $query = Invoice::query();
+
+        // pagination
+        $perPage = min($request->get('per_page', 10), 100);
         
+        // filtering
+        if ($request->has('status'))
+        {
+            $query->where('status', $request->get('status'));
+        }
+
+        // sorting
+        $sort = $request->get('sort', '-id');
+        $direction = $request->get($sort, '-') ? 'desc' : 'asc';
+        $column = ltrim($sort, '-');
+        $query->orderBy($column, $direction);
+
+        // search
+        // if ($search = $request->get('q'))
+        // {
+        //     $query->where(function ($q) use ($search) {
+        //         $q->where('amount', 'like', "%{$search}%");
+        //     });
+        // }
+
+        $invoices = $query->paginate($perPage); // or $invoices = Invoice::all(); 
+
         return InvoiceResource::collection($invoices);
     }
 

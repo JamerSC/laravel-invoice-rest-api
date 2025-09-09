@@ -83,12 +83,31 @@
 
 ### September 9, 2025
 
-1. Pagination -eloquent’s built-in pagination
+1. Pagination - controls how many results.
+
+-   eloquent’s built-in pagination
 
 -   `$users = User::paginate(10);` // standard pagination
 -   `$users = User::simplePaginate(10);` // lightweight pagination
 -   `$users = User::cursorPaginate(10);` // best for large tables
 
-2. Sort
-3. Filter
-4. Search
+-   End point `/api/v1/customers?page=1&per_page=5`
+-   End point `/api/v1/customers?type=individual&sort=name&page=2&per_page=10&include_invoices=true`
+-
+
+2. Sort - orders the results.
+
+-   ?sort=-id //descending order
+-   ?sort=od //ascending order
+-   `{{baseURL}}/api/v1/customers?type=business&sort=-id&page=1&per_page=10&include_invoices=false`
+
+3. Filter - limits results by type, status
+
+-   ?type=business //or individual
+-   `{{baseURL}}/api/v1/customers?type=business&page=1&per_page=10&include_invoices=false`
+
+4. Search - finds model (ex. customers) by keyword.
+
+-   `{{baseURL}}/api/v1/customers?q=jo`
+
+5. Optional - includes let you decide whether to fetch related data (invoices).

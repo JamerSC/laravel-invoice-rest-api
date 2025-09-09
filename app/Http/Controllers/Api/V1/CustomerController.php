@@ -14,14 +14,60 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //$customers = Customer::all();
+                // default page - 10
+        $perPage = min($request->get('per_page',10), 100);
 
-        $customers = Customer::with('invoices')->get();
+        // query customer
+        $query = Customer::query();
 
-        return CustomerResource::collection($customers);
+        // filtering
+        if ($request->has('type'))
+        {
+            $query->where('type', $request->get('type')); // ?type=business
+        }
+
+        // sorting
+        $sort = $request->get('sort', '-id'); // default: -id (desc)
+        $direction = str_starts_with($sort, '-') ? 'desc' : 'asc';
+        $column = ltrim($sort, '-');
+        $query->orderBy($column, $direction);
+
+        // show & hide invoices
+        if ($request->boolean('include_invoices', false))
+        {
+            $query->with('invoices');
+        }
+
+        // searching
+        if ($search = $request->get('q'))
+        {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('city', 'like', "%{$search}%")
+                  ->orWhere('province', 'like', "%{$search}%");
+            });
+        }
+
+
+        $customer = $query->paginate($perPage);
+
+        return CustomerResource::collection($customer);
     }
+            //$customers = Customer::all();
+
+        //$customers = Customer::with('invoices')->get();
+
+        /** default 10 per page, but allow ?per_page=15 */ 
+        // $perPage = request()->get('per_page', 10);
+        // $perPage = min($perPage, 100);
+
+        //$customers = Customer::paginate($perPage); // w/o invoices
+        //$customers = Customer::with('invoices')->paginate($perPage); // w/ invoices
+
+        //return CustomerResource::collection($customers);
+
 
     /**
      * Store a newly created resource in storage.
