@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\LoginRequest;
 use App\Http\Requests\V1\RegisterRequest;
+use App\Jobs\SendWelcomeEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -23,12 +24,15 @@ class AuthController extends Controller
             'password' => bcrypt($fields['password']),
         ]);
 
+        // dispatch the job (queue)
+        SendWelcomeEmail::dispatch($user);
+
         // create access token
         $token = $user->createToken('accessToken')->plainTextToken;
 
         // request response
         return response()->json([
-            'message' => 'User registered successfully!',
+            'message' => 'User registered! Email will be sent in storage/logs/laravel.log.',
             'user'    => $user,
             'token'   => $token,
         ], 201); // Created 201

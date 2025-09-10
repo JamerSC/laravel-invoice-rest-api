@@ -121,4 +121,29 @@
 -   In FileUploadController created a functions
 -   Single upload file
 -   Multiple file upload
--   Created routs for single & multiple upload
+-   Created routes for single & multiple upload
+-   Stored the files in `storage\app\public\uploads`
+-   Save file name & path in the database `files table`
+
+### Queues (Jobs for email / async tasks)
+
+1. In Laravel, Queues (also called Jobs) are a way to run time-consuming tasks in the background instead of making the user wait for them to finish during a web request
+2. Queues in Laravel: Main Things You Need to Know (Two Examples): `https://www.youtube.com/watch?v=D5tr7r2_i7E`
+3. Queues (Jobs for Email) for User Registration
+
+-   Update `.env property QUEUE_CONNECTION from sync to database `
+-   Update `MAIL_MAILER=log #smtp`
+-   Create Jobs table `php artisan queue:table` then `php artisan migrate`
+<?php
+-   Create a Mailable - send an email when a user registers (as an example). `php artisan make:mail WelcomeMail` this creates to `app\Mail\WelcomeMail.php`
+-   Update the WelcomeMail.php add $user in the constructor & build() function
+-   Create a view file in `resources/views/emails/welcome.blade.php`
+-   Create a Job `php artisan make:job SendWelcomeEmail` creates to `app/Jobs/SendWelcomeEmail.php`
+-   Update SendWelcomeMail add protected $user, constructor, & handle mail to
+-   Dispatch Job in Controller in UserController - add dispatch after creating a user `SendWelcomeEmail::dispatch($user);`
+-   Run Queue Worker - start the worker to process jobs `php artisan queue:work`
+-   ![alt text](image.png)
+-   After user registered can see the email content here `storage/logs/laravel.log`
+-   Note: Email written in the log file
+-   Running Serve & Queues In production use `Supervisor (Production)` through `Nginx/Apache`
+-   In local development just open 2 terminal One for `php artisan serve` & `php artisan queue:work`

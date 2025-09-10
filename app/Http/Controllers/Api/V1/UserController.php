@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\StoreUserRequest;
 use App\Http\Requests\V1\UpdateUserRequest;
 use App\Http\Resources\V1\UserResource;
+use App\Jobs\SendWelcomeEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -30,8 +31,11 @@ class UserController extends Controller
 
         $user = User::create($fields);
 
+        // dispatch the job (queue)
+        SendWelcomeEmail::dispatch($user);
+
         return response()->json([
-            'message' => 'Created user successfully!',
+            'message' => 'User Created! Email will be sent in background.',
             'user'    => $user,
         ],200);
     }
