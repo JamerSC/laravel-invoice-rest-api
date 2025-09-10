@@ -1,6 +1,6 @@
 ### Task & Activities
 
-### September 8, 2025
+### September 8, 2025 - Laravel Testing with PHPUnit/Pest (Auth + CRUD)
 
 1. API tests with PHPUnit or Pest (Auth + CRUD)
 
@@ -81,7 +81,7 @@
 -   Command to run the test `php artisan test`
 -   Command Test for Unit only `php artisan test --testsuite=Unit --stop-on-failure`
 
-### September 9, 2025
+### September 9, 2025 - Pagination, Sort, Filtering, & Search with Optional
 
 1. Pagination - controls how many results.
 
@@ -111,3 +111,14 @@
 -   `{{baseURL}}/api/v1/customers?q=jo`
 
 5. Optional - includes let you decide whether to fetch related data (invoices).
+
+### September 10, 2025 - File Upload + Storage (e.g., User Attachments)
+
+1. Basic file upload
+
+-   Make a File model `php artisan make:model File -m`
+-   Make a FileUploadController - `php artisan make:controller Api\V1\FileUploadController`
+-   In FileUploadController created a functions
+-   Single upload file
+-   Multiple file upload
+-   Created routs for single & multiple upload

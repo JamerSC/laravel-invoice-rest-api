@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CustomerController;
+use App\Http\Controllers\Api\V1\FileUploadController;
 use App\Http\Controllers\Api\V1\InvoiceController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Http\Request;
@@ -48,6 +49,9 @@ Route::prefix('v1')->group(function () {
         // invoices custom endpoint
         Route::patch('/invoices/{id}/mark-as-paid', [InvoiceController::class, 'markAsPaid']);
         Route::patch('/invoices/{id}/mark-as-void', [InvoiceController::class, 'markAsVoid']);
+        // File upload endpoint
+        Route::post('/upload', [FileUploadController::class, 'upload']);
+        Route::post('/upload-multiple', [FileUploadController::class, 'uploadMultiple']);
     });
 });
 
