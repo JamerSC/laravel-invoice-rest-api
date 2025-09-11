@@ -16,7 +16,7 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-                // default page - 10
+        // default page - 10
         $perPage = min($request->get('per_page',10), 100);
 
         // query customer
@@ -53,7 +53,12 @@ class CustomerController extends Controller
 
         $customer = $query->paginate($perPage);
 
-        return CustomerResource::collection($customer);
+        $getAllCustomers = CustomerResource::collection($customer);
+
+        return response()->json([
+            'message'   => 'List of all customers',
+            'customers' => $getAllCustomers,
+        ],200);
     }
             //$customers = Customer::all();
 

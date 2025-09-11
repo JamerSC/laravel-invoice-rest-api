@@ -23,35 +23,55 @@ use Illuminate\Support\Facades\Route;
 // v1 = version 1
 Route::prefix('v1')->group(function () {
     // public endpoint
-    Route::post('/register', [AuthController::class,'register']);
-    Route::post('/login', [AuthController::class,'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
 
     // private endpoint
     Route::middleware('auth:sanctum')->group(function(){
         // logout endpoint
         Route::post('/logout', [AuthController::class,'logout']);
 
-        // @test for phpunit testing
-        Route::get('/profile', function (Request $request) {
-        return response()->json([
-            'name'  => $request->user()->name,
-            'email' => $request->user()->email,
-            ]);
-        });
-
-
         // users api resource endpoint
-        Route::apiResource('/users', UserController::class);
-        // customers api resource endpoint
-        Route::apiResource('/customers', CustomerController::class);
-        // invoices api resource endpoint
-        Route::apiResource('/invoices', InvoiceController::class);
-        // invoices custom endpoint
+        Route::get('/users', [UserController::class, 'index']);
+        Route::post('/users', [UserController::class, 'store']);
+        Route::get('/users/{user}', [UserController::class, 'show']);
+        Route::put('/users/{user}', [UserController::class, 'update']);
+        Route::patch('/users/{user}', [UserController::class, 'update']);
+        Route::delete('/users/{user}', [UserController::class, 'destroy']);
+        //Route::apiResource('/users', UserController::class);
+        
+        // customers http methods
+        Route::get('/customers', [CustomerController::class, 'index']);
+        Route::post('/customers', [CustomerController::class, 'store']);
+        Route::get('/customers/{customer}', [CustomerController::class, 'show']);
+        Route::put('/customers/{customer}', [CustomerController::class, 'update']);
+        Route::patch('/customers/{customer}', [CustomerController::class, 'update']);
+        Route::delete('/customers/{customer}', [CustomerController::class, 'destroy']);
+        //Route::apiResource('/customers', CustomerController::class); // all in endpoint
+        
+        // invoices http methods
+        Route::get('/invoices', [InvoiceController::class, 'index']);
+        Route::post('/invoices', [InvoiceController::class, 'store']);
+        Route::get('/invoices/{invoice}', [InvoiceController::class, 'show']);
+        Route::put('/invoices/{invoice}', [InvoiceController::class, 'update']);
+        Route::patch('/invoices/{invoice}', [InvoiceController::class, 'update']);
+        Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy']);
+        // custom
         Route::patch('/invoices/{id}/mark-as-paid', [InvoiceController::class, 'markAsPaid']);
         Route::patch('/invoices/{id}/mark-as-void', [InvoiceController::class, 'markAsVoid']);
+        //Route::apiResource('/invoices', InvoiceController::class); // all in endpoint
+
         // File upload endpoint
         Route::post('/upload', [FileUploadController::class, 'upload']);
         Route::post('/upload-multiple', [FileUploadController::class, 'uploadMultiple']);
+
+        // for testing
+        // Route::get('/profile', function (Request $request) {
+        // return response()->json([
+        //     'name'  => $request->user()->name,
+        //     'email' => $request->user()->email,
+        //     ]);
+        // });
     });
 });
 

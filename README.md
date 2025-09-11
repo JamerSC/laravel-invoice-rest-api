@@ -1,5 +1,9 @@
 ### Task & Activities
 
+### PHP 8.1.0
+
+### Laravel Framework 10.48.29
+
 ### September 8, 2025 - Laravel Testing with PHPUnit/Pest (Auth + CRUD)
 
 1. API tests with PHPUnit or Pest (Auth + CRUD)
@@ -112,7 +116,9 @@
 
 5. Optional - includes let you decide whether to fetch related data (invoices).
 
-### September 10, 2025 - File Upload + Storage (e.g., User Attachments)
+### September 10, 2025
+
+### File Upload + Storage (e.g., User Attachments)
 
 1. Basic file upload
 
@@ -147,3 +153,43 @@
 -   Note: Email written in the log file
 -   Running Serve & Queues In production use `Supervisor (Production)` through `Nginx/Apache`
 -   In local development just open 2 terminal One for `php artisan serve` & `php artisan queue:work`
+
+### September 11, 2025 - Swagger / OpenAPI docs generation
+
+1. Swagger Setup
+
+-   Install Swagger-PHP Library in terminal enter the command `composer require zircote/swagger-php`
+-   Create API routes `/customers`
+-   Create swagger annotations in controller methods to document the API `@SWG`
+-   After annotating controllers, generate swagger documentation
+-   Install the package for v8 `composer require "darkaonline/l5-swagger:^8.0"` for v9+`composer require darkaonline/l5-swagger`
+-   Publish the swagger configuration `php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"`
+-   Didn't proceed due to Php version 8.1.0 & the l5-swagger is v9 and not compatible
+
+2. Scramble – Laravel OpenAPI (Swagger) Documentation Generator `https://scramble.dedoc.co/`
+
+-   Scramble installation https://scramble.dedoc.co/installation
+-   Install Scramble: `composer dedoc/scramble`
+-   Check the scramble api routes `php artisan route:list`
+-   Routes added: `/docs/api` & `/docs/api.json`
+-   Next Pubshing Config `php artisan vendor:publish --provider="Dedoc\Scramble\ScrambleServiceProvider" --tag="scramble-config"` folder `config\scramble.php`
+-   Allow access in `App\Providers\AppServiceProvider` in `boot()` (REMOVED)
+-   `Dedoc\Scramble\ScrambleServiceProvider::class` // register scramble provider config/app.php
+-   Removing scramble `composer remove dedoc/scramble`
+
+3. Scribe - https://scribe.knuckles.wtf/laravel/
+
+-   Add package `composer require knuckleswtf/scribe`
+-   Publish the config file `php artisan vendor:publish --tag=scribe-config` then will create a scribe.php file in your config folder
+-   Configure `config/scribe.php`
+-   Type Laravel
+-   Routes (use default)
+-   Responses replace into no examples `'responses' => removeStrategies(Defaults::RESPONSES_STRATEGIES, [
+-                  Strategies\Responses\ResponseCalls::class,
+-              ]),`
+-   Note: auto generated response cause the slowness of generating api docs
+-   Test run in terminal enter the cmd: `php artisan scribe:generate`
+-   Show info `composer show knuckleswtf/scribe` (optional)
+-   Update scribe `composer update knuckleswtf/scribe` (optional)
+-   After generating the documents resource & public folder updated
+-   Run the `php artisan serve` then access the api docu `http://127.0.0.1:8000/docs`
