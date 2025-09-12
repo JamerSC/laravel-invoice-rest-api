@@ -198,6 +198,8 @@
 -   Resources folder `Remove-Item -Recurse -Force resources\views\scribe`
 -   Clear Laravel caches - config, route, cache, & `composer dump-autoload`
 
+### Sept. 12, 2025
+
 4. Swagger (g4t/swagger) Laravel Autogenerate Package
 
 -   Link `https://github.com/hussein4alaa/laravel-g4t-swagger-auto-generate/`
@@ -217,7 +219,30 @@
 -   e. Section description
 -   `#[SwaggerSection('everything about your users')] class UserController extends Controller { // functions }`
 -   f. Enable documentation auth, open config/swagger.php and edit:
--   "enable_auth" => false,
+-   "enable_auth" => false, //make this true
 -   "username" => "admin",
 -   "password" => "pass",
 -   "sesson_ttl" => 100000,
+
+### September 12, 2025 - Laravel Service Layer
+
+1.  Service Layer Design Pattern in Laravel (PHP) written by Mohammad Rashandelpoor Software Engineer | Laravel | PHP | Nuxt | Vue | with over 10 years of experience, have a deep understanding of software architecture `https://medium.com/@mohammad.roshandelpoor/service-layer-design-pattern-in-laravel-php-e132dcb4c2ab`
+
+2.  Set Up Services
+
+-   App > Create Services folder: `mkdir app/Services`
+-   Create Services for Business logic
+-   UserService Class `New-Item -Path "app/Services/UserService.php" -ItemType File`
+-   AuthService Class `New-Item -Path "app/Services/AuthService.php" -ItemType File`
+-   App > Create Repositories folder `mkdir app/Repositories`
+-   Create Repositories - class will contain methods for querying and manipulating model data in the database
+-   UserRespository Class `New-Item -Path "app/Repositories/UserRepository.php" -ItemType File`
+-   Setup `UserRepository` class database operations
+-   Setup `AuthService` business/authentication logic
+-   Update `AuthController` update incoming request/response & validation
+-   Implemented database operation on `UserRepository`
+-   Implemented business login on `AuthService` & inject `UserRepository`
+-   Updated `AuthController` validation & handle request & response. Inject the `AuthService`
+-   Run the Serve in first terminal: `php artisan serve`
+-   Run the Queue Work in second terminal: `php artisan queue:work`
+-   Test registration in `Postman`

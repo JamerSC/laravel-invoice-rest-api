@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\LoginRequest;
 use App\Http\Requests\V1\RegisterRequest;
+use App\Http\Resources\V1\UserResource;
 use App\Jobs\SendWelcomeEmail;
 use App\Models\User;
+use App\Services\AuthService;
+use App\Services\UserService;
 use G4T\Swagger\Attributes\SwaggerSection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -14,17 +17,19 @@ use Illuminate\Support\Facades\Hash;
  #[SwaggerSection('User Authentication Controller')]
 class AuthController extends Controller
 {
+    protected AuthService $authService;
+
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+    
     public function register(RegisterRequest $request)
     {
         // validate register fields
-        $fields = $request->validated();
+        $validatedData = $request->validated();
 
-        // create to register new user
-        $user = User::create([
-            'name'     => $fields['name'],
-            'email'    => $fields['email'],
-            'password' => bcrypt($fields['password']),
-        ]);
+        $user = $this->authService->registerUser($validatedData);
 
         // dispatch the job (queue)
         SendWelcomeEmail::dispatch($user);
@@ -32,13 +37,45 @@ class AuthController extends Controller
         // create access token
         $token = $user->createToken('accessToken')->plainTextToken;
 
-        // request response
+        if ($user) {
+            // request response
+            return response()->json([
+                'message' => 'User registered! Email will be sent in storage/logs/laravel.log.',
+                'user'    => new UserResource($user),
+                'token'   => $token,
+               ], 201); // Created 201
+        }
+
         return response()->json([
-            'message' => 'User registered! Email will be sent in storage/logs/laravel.log.',
-            'user'    => $user,
-            'token'   => $token,
-        ], 201); // Created 201
+            'message' => 'User registration failed. Email exists.'
+        ], 422);
     }
+
+    // public function register(RegisterRequest $request)
+    // {
+    //     // validate register fields
+    //     $fields = $request->validated();
+
+    //     // create to register new user
+    //     $user = User::create([
+    //         'name'     => $fields['name'],
+    //         'email'    => $fields['email'],
+    //         'password' => bcrypt($fields['password']),
+    //     ]);
+
+    //     // dispatch the job (queue)
+    //     SendWelcomeEmail::dispatch($user);
+
+    //     // create access token
+    //     $token = $user->createToken('accessToken')->plainTextToken;
+
+    //     // request response
+    //     return response()->json([
+    //         'message' => 'User registered! Email will be sent in storage/logs/laravel.log.',
+    //         'user'    => $user,
+    //         'token'   => $token,
+    //     ], 201); // Created 201
+    // }
 
     public function login(LoginRequest $request)
     {

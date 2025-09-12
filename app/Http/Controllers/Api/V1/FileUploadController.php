@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 #[SwaggerSection('File Upload Controller')]
 class FileUploadController extends Controller
 {
-    public function upload(Request $request)
+    public function upload_single_file(Request $request)
     {
         // validate file
         $request->validate([
@@ -33,7 +33,7 @@ class FileUploadController extends Controller
         ],201);
     }
 
-    public function uploadMultiple(Request $request)
+    public function upload_multiple_file(Request $request)
     {
         $uploadedFiles = [];
         

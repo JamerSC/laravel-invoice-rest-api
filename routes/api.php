@@ -57,13 +57,13 @@ Route::prefix('v1')->group(function () {
         Route::patch('/invoices/{invoiceId}', [InvoiceController::class, 'update'])->summary('Patch Invoices reference by ID');
         Route::delete('/invoices/{invoiceId}', [InvoiceController::class, 'destroy'])->summary('Delete Invoices by ID');
         // custom
-        Route::patch('/invoices/{invoiceId}/mark-as-paid', [InvoiceController::class, 'markAsPaid'])->summary('Update Invoice status to Paid reference by ID');
-        Route::patch('/invoices/{invoiceId}/mark-as-void', [InvoiceController::class, 'markAsVoid'])->summary('Update Invoice status to Void reference by ID');
+        Route::patch('/invoices/{invoiceId}/mark-as-paid', [InvoiceController::class, 'mark_as_paid'])->summary('Update Invoice status to Paid reference by ID');
+        Route::patch('/invoices/{invoiceId}/mark-as-void', [InvoiceController::class, 'mark_as_void'])->summary('Update Invoice status to Void reference by ID');
         //Route::apiResource('/invoices', InvoiceController::class); // all in endpoint
 
         // File upload endpoint
-        Route::post('/upload', [FileUploadController::class, 'upload'])->summary('Upload Single File');
-        Route::post('/upload-multiple', [FileUploadController::class, 'uploadMultiple'])->summary('Upload Multiple Files');
+        Route::post('/upload-single-file', [FileUploadController::class, 'upload_single_file'])->summary('Upload Single File');
+        Route::post('/upload-multiple-file', [FileUploadController::class, 'upload_multiple_file'])->summary('Upload Multiple Files');
 
         // for testing
         // Route::get('/profile', function (Request $request) {
