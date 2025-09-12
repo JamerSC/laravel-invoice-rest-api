@@ -156,7 +156,7 @@
 
 ### September 11, 2025 - Swagger / OpenAPI docs generation
 
-1. Swagger Setup
+1. Swagger (Zircote) Setup
 
 -   Install Swagger-PHP Library in terminal enter the command `composer require zircote/swagger-php`
 -   Create API routes `/customers`
@@ -184,12 +184,40 @@
 -   Configure `config/scribe.php`
 -   Type Laravel
 -   Routes (use default)
--   Responses replace into no examples `'responses' => removeStrategies(Defaults::RESPONSES_STRATEGIES, [
--                  Strategies\Responses\ResponseCalls::class,
--              ]),`
+-   Responses replace into no examples `'responses' => removeStrategies(Defaults::RESPONSES_STRATEGIES, [Strategies\Responses\ResponseCalls::class,]),`
 -   Note: auto generated response cause the slowness of generating api docs
 -   Test run in terminal enter the cmd: `php artisan scribe:generate`
 -   Show info `composer show knuckleswtf/scribe` (optional)
 -   Update scribe `composer update knuckleswtf/scribe` (optional)
--   After generating the documents resource & public folder updated
+-   After generating the documents resources `resources\views\scribe\index.blade.php` & public folder updated `public\vendor\scribe`
 -   Run the `php artisan serve` then access the api docu `http://127.0.0.1:8000/docs`
+-   Remove scribe `composer remove knuckleswtf/scribe`
+-   Delete scribe config `rm config/scribe.ph`or `Remove-Item C:\Users\USER\laravel-workspace\invoice-api\config\scribe.php`
+-   Remove scribe assets
+-   Public folder `Remove-Item -Recurse -Force public\vendor\scribe`
+-   Resources folder `Remove-Item -Recurse -Force resources\views\scribe`
+-   Clear Laravel caches - config, route, cache, & `composer dump-autoload`
+
+4. Swagger (g4t/swagger) Laravel Autogenerate Package
+
+-   Link `https://github.com/hussein4alaa/laravel-g4t-swagger-auto-generate/`
+-   Documentation: `https://swagger.io/docs/`
+-   Installation
+-   a. Install the Swagger Laravel Autogenerate Package via Composer: `composer require g4t/swagger` - Using version ^4.0 for g4t/swagger
+-   b. After installing the package, publish the configuration file: `php artisan vendor:publish --provider "G4T\Swagger\SwaggerServiceProvider"`
+-   Swagger config `config\swagger.php`
+-   Swagger public folder `public\g4t\swagger`
+-   c. Access swagger documentation:
+-   Documentation: `http://127.0.0.1:8000/swagger/documentation`
+-   Issues: `http://127.0.0.1:8000/swagger/issues`
+-   d. Include description, summary, & hide endpoint:
+-   In routes add description: ` Route::get('user', [UserController::class, 'index'])->description('Get list of users with pagination.');`
+-   In routes add summary `Route::get('user', [UserController::class, 'index'])->summary('get users.');`
+-   In routes add hide enpoint `Route::get('user', [UserController::class, 'index'])->hiddenDoc();`
+-   e. Section description
+-   `#[SwaggerSection('everything about your users')] class UserController extends Controller { // functions }`
+-   f. Enable documentation auth, open config/swagger.php and edit:
+-   "enable_auth" => false,
+-   "username" => "admin",
+-   "password" => "pass",
+-   "sesson_ttl" => 100000,

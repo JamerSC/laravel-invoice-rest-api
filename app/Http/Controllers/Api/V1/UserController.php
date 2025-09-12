@@ -8,8 +8,10 @@ use App\Http\Requests\V1\UpdateUserRequest;
 use App\Http\Resources\V1\UserResource;
 use App\Jobs\SendWelcomeEmail;
 use App\Models\User;
+use G4T\Swagger\Attributes\SwaggerSection;
 use Illuminate\Http\Request;
 
+#[SwaggerSection('User Controller')]
 class UserController extends Controller
 {
     /**

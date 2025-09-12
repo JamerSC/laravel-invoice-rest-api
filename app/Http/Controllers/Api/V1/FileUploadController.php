@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\File;
+use G4T\Swagger\Attributes\SwaggerSection;
 use Illuminate\Http\Request;
 
+#[SwaggerSection('File Upload Controller')]
 class FileUploadController extends Controller
 {
     public function upload(Request $request)

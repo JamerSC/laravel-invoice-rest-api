@@ -7,9 +7,11 @@ use App\Http\Requests\V1\LoginRequest;
 use App\Http\Requests\V1\RegisterRequest;
 use App\Jobs\SendWelcomeEmail;
 use App\Models\User;
+use G4T\Swagger\Attributes\SwaggerSection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+ #[SwaggerSection('User Authentication Controller')]
 class AuthController extends Controller
 {
     public function register(RegisterRequest $request)

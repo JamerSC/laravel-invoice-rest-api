@@ -7,8 +7,10 @@ use App\Http\Requests\V1\StoreCustomerRequest;
 use App\Http\Requests\V1\UpdateCustomerRequest;
 use App\Http\Resources\V1\CustomerResource;
 use App\Models\Customer;
+use G4T\Swagger\Attributes\SwaggerSection;
 use Illuminate\Http\Request;
 
+ #[SwaggerSection('Customer Controller')]
 class CustomerController extends Controller
 {
     /**
