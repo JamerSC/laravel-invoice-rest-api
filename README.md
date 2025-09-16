@@ -246,3 +246,27 @@
 -   Run the Serve in first terminal: `php artisan serve`
 -   Run the Queue Work in second terminal: `php artisan queue:work`
 -   Test registration in `Postman`
+
+### September 16, 2025 - Error Tracking & Notifications
+
+1. Error Tracking - (6hrs) Duration
+
+-   Use Try & Catch (with ValidationException & ModelNotFoundException) and Log
+-   Code Refactor & Implement Service layer to Customer
+-   Best practice: Implemented logs in service layer (CRUD functions) & keep the controller thin
+-   Implement global exception for handling not found
+
+-   Sentry > Monitoring & Error tracking `https://medium.com/@mohammad.roshandelpoor/monitoring-and-error-tracking-in-laravel-59c31b985c0d`
+
+2. Notification (2hrs)
+
+-   Email notification using mailtrap.io
+-   Open `.env file` update the MAIL CONFIG copy the values from mailtrap > sandbox smtp credentials
+-   MAIL_MAILER=smtp
+-   MAIL_HOST=sandbox.smtp.mailtrap.io
+-   MAIL_PORT=2525
+-   MAIL_USERNAME=f6abc4
+-   MAIL_PASSWORD=32bc56
+-   MAIL_ENCRYPTION=tls
+-   MAIL_FROM_ADDRESS="mr.catalla28@gmail.com"
+-   MAIL_FROM_NAME="${APP_NAME}"

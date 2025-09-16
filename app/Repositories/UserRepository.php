@@ -6,7 +6,7 @@ use App\Models\User;
 
 class UserRepository
 {
-    protected $user;
+    protected User $user;
 
     public function __construct(User $user)
     {
