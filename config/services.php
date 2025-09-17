@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'payfusion' => [
+        'key'      => env('PAYFUSION_API_KEY'),
+        'mode'     => env('PAYFUSION_MODE'),
+        'base_url' => env('PAYFUSION_BASE_URL'),
+    ],
 ];

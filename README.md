@@ -260,7 +260,7 @@
 -   Best practice: Implemented logs in service layer (CRUD functions) & keep the controller thin
 -   Implement global exception for handling not found
 
--   Sentry > Monitoring & Error tracking `https://medium.com/@mohammad.roshandelpoor/monitoring-and-error-tracking-in-laravel-59c31b985c0d`
+-   # Sentry > Monitoring & Error tracking `https://medium.com/@mohammad.roshandelpoor/monitoring-and-error-tracking-in-laravel-59c31b985c0d`
 
 2. Notification (2hrs)
 
@@ -279,10 +279,33 @@
 
 1. Payfusion
 
--   Created Payfusion Merchant Account: `https://payfusion.solutions/`
--
+-   # Created Payfusion Merchant Account: `https://payfusion.solutions/`
+-   # Developers:
+-   a. API Docs
+-   b. Generate an API Key (will be used in .env file)
+-   c. Webhooks
+-   Integrate Payfusion in Laravel API Project
+-   # Configure `.env file`:
+-   Payfusion Payment Integration
+-   PAYFUSION_API_KEY=CvFLKK3g8i2WcLMJBCXQZ\***\*\*\*\*\*\***
+-   PAYFUSION_MODE=sandbox # or live
+-   PAYFUSION_BASE_URL=https://payfusion.solutions/api
+-   # Create a Config File in `config/services.php`
+-   'payfusion' => [
+-   'key' => env('PAYFUSION_API_KEY'),
+-   'mode' => env('PAYFUSION_MODE', 'sandbox'),
+-   'base_url' => env('PAYFUSION_BASE_URL', 'https://payfusion.solutions/api/v1'),
+-   ],
+-   # Create PayfusionService Class `New-Item -Path "app/Services/PayfusionService.php" -ItemType File`
+-   In payfusion service inject the payfusion from config > services.php
+-   Create a constructor and inject the config
+-   Create Services Implements for Header, Token, Payment, & Invoice
+-   # Create PayfusionController Class `php artisan make:controller Api\V1\PayfusionController`
+-   Create Controller function
+-   Create Requests Class for Token, Payment, & Invoice - for validation
+-   Test Get List of Invoices
 
-2. M360
+2. M360: `https://www.m360.com.ph/`
 
 3. Scramble Open API Doc
 
@@ -290,3 +313,9 @@
 -   Run serve `php artisan serve`
 -   Enter the url to access generated API Doc by Scramble `http://127.0.0.1:8000/docs/api`
 -   Json doc format `http://127.0.0.1:8000/docs/api.json`
+-   scramble config file `php artisan vendor:publish --provider="Dedoc\Scramble\ScrambleServiceProvider" --tag="scramble-config"` - loc. `config\scramble.php`
+-   Update the config changes, rebuild docs: `php artisan scramble:analyze`
+-   Run `php artisan serve`
+-   Publish scramble ui
+-   `php artisan vendor:publish --tag="scramble-views"` - resources\views\vendor\scramble
+-   remove config file `rm config/scramble.php`

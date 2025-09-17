@@ -156,7 +156,7 @@ class InvoiceController extends Controller
 
     // custom function
 
-    public function mark_as_paid(string $id)
+    public function markAsPaid(string $id)
     {
         $invoice = Invoice::find($id);
 
@@ -197,7 +197,7 @@ class InvoiceController extends Controller
         ],200);
     }
 
-        public function mark_as_void(string $id)
+        public function markAsVoid(string $id)
     {
         $invoice = Invoice::find($id);
 

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class FileUploadController extends Controller
 {
-    public function upload_single_file(Request $request)
+    public function uploadSingleFile(Request $request)
     {
         // validate file
         $request->validate([
@@ -31,7 +31,7 @@ class FileUploadController extends Controller
         ],201);
     }
 
-    public function upload_multiple_file(Request $request)
+    public function uploadMultipleFile(Request $request)
     {
         $uploadedFiles = [];
         

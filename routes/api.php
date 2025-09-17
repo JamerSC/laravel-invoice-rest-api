@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\FileUploadController;
 use App\Http\Controllers\Api\V1\InvoiceController;
+use App\Http\Controllers\Api\V1\PayfusionController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 // v1 = version 1
 Route::prefix('v1')->group(function () {
     // public endpoint
-    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/register', [AuthController::class, 'register']);  
     Route::post('/login', [AuthController::class, 'login']);
 
     // private endpoint
@@ -57,13 +58,13 @@ Route::prefix('v1')->group(function () {
         Route::patch('/invoices/{invoiceId}', [InvoiceController::class, 'update']);
         Route::delete('/invoices/{invoiceId}', [InvoiceController::class, 'destroy']);
         // custom
-        Route::patch('/invoices/{invoiceId}/mark-as-paid', [InvoiceController::class, 'mark_as_paid']);
-        Route::patch('/invoices/{invoiceId}/mark-as-void', [InvoiceController::class, 'mark_as_void']);
+        Route::patch('/invoices/{invoiceId}/mark-as-paid', [InvoiceController::class, 'markAsPaid']);
+        Route::patch('/invoices/{invoiceId}/mark-as-void', [InvoiceController::class, 'markAsVoid']);
         //Route::apiResource('/invoices', InvoiceController::class); // all in endpoint
 
         // File upload endpoint
-        Route::post('/upload-single-file', [FileUploadController::class, 'upload_single_file']);
-        Route::post('/upload-multiple-file', [FileUploadController::class, 'upload_multiple_file']);
+        Route::post('/upload-single-file', [FileUploadController::class, 'uploadSingleFile']);
+        Route::post('/upload-multiple-file', [FileUploadController::class, 'uploadMultipleFile']);
 
         // for testing
         // Route::get('/profile', function (Request $request) {
@@ -72,6 +73,12 @@ Route::prefix('v1')->group(function () {
         //     'email' => $request->user()->email,
         //     ]);
         // });
+
+        // Payfusion 
+        route::post('/tokens', [PayfusionController::class, 'createPaymentToken']);
+        route::post('/payments', [PayfusionController::class, 'createPaymentRequest']);
+        route::get('/payfusion-invoices', [PayfusionController::class, 'listOfInvoices']);
+        route::post('/invoices', [PayfusionController::class, 'createInvoice']);
     });
 });
 
