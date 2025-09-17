@@ -9,12 +9,9 @@ use App\Http\Resources\V1\UserResource;
 use App\Jobs\SendWelcomeEmail;
 use App\Models\User;
 use App\Services\AuthService;
-use App\Services\UserService;
-use G4T\Swagger\Attributes\SwaggerSection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
- #[SwaggerSection('User Authentication Controller')]
 class AuthController extends Controller
 {
     protected AuthService $authService;

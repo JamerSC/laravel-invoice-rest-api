@@ -7,10 +7,8 @@ use App\Http\Requests\V1\StoreInvoiceRequest;
 use App\Http\Requests\V1\UpdateInvoiceRequest;
 use App\Http\Resources\V1\InvoiceResource;
 use App\Models\Invoice;
-use G4T\Swagger\Attributes\SwaggerSection;
 use Illuminate\Http\Request;
 
-#[SwaggerSection('Invoice Controller')]
 class InvoiceController extends Controller
 {
     /**

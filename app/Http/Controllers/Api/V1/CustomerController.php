@@ -6,14 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\StoreCustomerRequest;
 use App\Http\Requests\V1\UpdateCustomerRequest;
 use App\Http\Resources\V1\CustomerResource;
-use App\Models\Customer;
 use App\Services\CustomerService;
-use G4T\Swagger\Attributes\SwaggerSection;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
- #[SwaggerSection('Customer Controller')]
 class CustomerController extends Controller
 {
     protected CustomerService $customerService; // inject customer service

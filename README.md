@@ -224,6 +224,10 @@
 -   "password" => "pass",
 -   "sesson_ttl" => 100000,
 
+-   REMOVAL
+-   Swagger g4t open doc api: composer remove g4t/swagger
+-   Config file `rm config/swagger.php`
+
 ### September 12, 2025 - Laravel Service Layer
 
 1.  Service Layer Design Pattern in Laravel (PHP) written by Mohammad Rashandelpoor Software Engineer | Laravel | PHP | Nuxt | Vue | with over 10 years of experience, have a deep understanding of software architecture `https://medium.com/@mohammad.roshandelpoor/service-layer-design-pattern-in-laravel-php-e132dcb4c2ab`
@@ -270,3 +274,19 @@
 -   MAIL_ENCRYPTION=tls
 -   MAIL_FROM_ADDRESS="mr.catalla28@gmail.com"
 -   MAIL_FROM_NAME="${APP_NAME}"
+
+### September 17, 2025 - Third-Party API integration (Payment gateway & SMS providers)
+
+1. Payfusion
+
+-   Created Payfusion Merchant Account: `https://payfusion.solutions/`
+-
+
+2. M360
+
+3. Scramble Open API Doc
+
+-   Install `composer require dedoc/scramble`
+-   Run serve `php artisan serve`
+-   Enter the url to access generated API Doc by Scramble `http://127.0.0.1:8000/docs/api`
+-   Json doc format `http://127.0.0.1:8000/docs/api.json`
