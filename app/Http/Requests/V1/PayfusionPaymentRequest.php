@@ -27,7 +27,7 @@ class PayfusionPaymentRequest extends FormRequest
             'first_name'         => 'required|string',
             'last_name'          => 'required|string',
             'email'              => 'required|email',
-            'payment_token_id'   => 'required|string',
+            'payment_token_id'   => 'nullable',
             'amount'             => 'required|numeric|min:1',
             'success_return_url' => 'required|url',
             'failure_return_url' => 'required|url',

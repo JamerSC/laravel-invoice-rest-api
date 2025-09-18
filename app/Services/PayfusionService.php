@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class PayfusionService 
 {
@@ -17,12 +18,13 @@ class PayfusionService
         $this->apiKey = config('services.payfusion.key');
     }
 
-    private function headers()
+    private function headers($idempotencyKey = null)
     {
         return [
-            'Authorization' => 'Bearer ' . $this->apiKey,
-            'Accept'        => 'application/json',
-            'Content-Type'  => 'application/json',
+            'Authorization'   => 'Bearer ' . $this->apiKey,
+            'Accept'          => 'application/json',
+            'Content-Type'    => 'application/json',
+            'Idempotency-Key' => $idempotencyKey ?? (string) Str::uuid(),
         ];
     }
     
@@ -48,7 +50,12 @@ class PayfusionService
     public function createPaymentRequest(array $data)
     {
         $url = "{$this->baseUrl}/{$this->mode}/payment-requests";
-        return Http::withHeaders($this->headers())->post($url, $data)->json();
+        
+        // generate UUID v4 for idempotency key
+        $idempotencyKey = (string) Str::uuid();
+
+        return Http::withHeaders($this->headers($idempotencyKey)
+        )->post($url, $data)->json();
     }
 
     // Get Payment

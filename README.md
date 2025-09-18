@@ -277,7 +277,20 @@
 
 ### September 17, 2025 - Third-Party API integration (Payment gateway & SMS providers)
 
-1. Payfusion
+1. Scramble Open API Doc
+
+-   Install `composer require dedoc/scramble`
+-   Run serve `php artisan serve`
+-   Enter the url to access generated API Doc by Scramble `http://127.0.0.1:8000/docs/api`
+-   Json doc format `http://127.0.0.1:8000/docs/api.json`
+-   scramble config file `php artisan vendor:publish --provider="Dedoc\Scramble\ScrambleServiceProvider" --tag="scramble-config"` - loc. `config\scramble.php`
+-   Update the config changes, rebuild docs: `php artisan scramble:analyze`
+-   Run `php artisan serve`
+-   Publish scramble ui
+-   `php artisan vendor:publish --tag="scramble-views"` - resources\views\vendor\scramble
+-   remove config file `rm config/scramble.php`
+
+2. Payfusion API integration
 
 -   # Created Payfusion Merchant Account: `https://payfusion.solutions/`
 -   # Developers:
@@ -305,17 +318,11 @@
 -   Create Requests Class for Token, Payment, & Invoice - for validation
 -   Test Get List of Invoices
 
+### September 17, 2025 - Cont. Payfusion API integration
+
+-   Payfusion requires an Idempotency-Key header on payment request calls (to prevent duplicate charges if a request is retried).
+-   In PayfusionService Add Idempotency-Key Header `'Idempotency-Key' => $idempotencyKey ?? (string) Str::uuid(),`
+-   createPaymentRequest() // generate UUID v4 for idempotency key (next to url)
+-   Can create invoice, get invoice by id, & get list of invoice
+
 2. M360: `https://www.m360.com.ph/`
-
-3. Scramble Open API Doc
-
--   Install `composer require dedoc/scramble`
--   Run serve `php artisan serve`
--   Enter the url to access generated API Doc by Scramble `http://127.0.0.1:8000/docs/api`
--   Json doc format `http://127.0.0.1:8000/docs/api.json`
--   scramble config file `php artisan vendor:publish --provider="Dedoc\Scramble\ScrambleServiceProvider" --tag="scramble-config"` - loc. `config\scramble.php`
--   Update the config changes, rebuild docs: `php artisan scramble:analyze`
--   Run `php artisan serve`
--   Publish scramble ui
--   `php artisan vendor:publish --tag="scramble-views"` - resources\views\vendor\scramble
--   remove config file `rm config/scramble.php`

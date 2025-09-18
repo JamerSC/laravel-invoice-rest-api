@@ -18,6 +18,8 @@ class PayfusionController extends Controller
         $this->payfusionService = $payfusionService;
     }
 
+    /** TOKENS */
+    
     public function createPaymentToken(PayfusionTokenRequest $request)
     {
         $data = $request->validated();
@@ -25,9 +27,20 @@ class PayfusionController extends Controller
         $createdToken = $this->payfusionService->createPaymentToken($data);
 
         return response()->json([
-            "Token" => $createdToken,
+            'Token' => $createdToken,
         ],200);
     }
+
+    public function getPaymentToken($tokenId)
+    {
+        $listOfTokens = $this->payfusionService->getPaymentToken($tokenId);
+        
+        return response()->json([
+            'tokens' => $listOfTokens,
+        ],200);
+    }
+
+    /** PAYMENT  */
 
     public function createPaymentRequest(PayfusionPaymentRequest $request)
     {
@@ -36,9 +49,29 @@ class PayfusionController extends Controller
         $paymentRequest = $this->payfusionService->createPaymentRequest($data);
 
         return response()->json([
-            "paid" => $paymentRequest,
+            'payment' => $paymentRequest,
         ],200);
     }
+
+    public function getPaymentRequest($requestId)
+    {
+        $paymentRequested = $this->payfusionService->getPaymentRequest($requestId);
+
+        return response()->json([
+            'payment'=> $paymentRequested
+        ],200);
+    }
+
+    public function capturePaymentRequest($requestId)
+    {
+        $capturedPayment = $this->payfusionService->capturePaymentRequest($requestId);
+
+        return response()->json([
+            'captured'=> $capturedPayment
+        ],200);
+    }
+
+    /** INVOICES */
     
     public function listOfInvoices()
     {
@@ -49,6 +82,15 @@ class PayfusionController extends Controller
         ],200);
     }
 
+    public function showInvoice($invoiceId)
+    {
+        $invoice = $this->payfusionService->showInvoice($invoiceId);
+
+        return response()->json([
+            'invoice' => $invoice,
+        ],200);
+    }
+
     public function createInvoice(PayfusionInvoiceRequest $request)
     {
         $data = $request->validated();
@@ -56,7 +98,7 @@ class PayfusionController extends Controller
         $createdInvoice = $this->payfusionService->createInvoice($data);
 
         return response()->json([
-            "invoiced" => $createdInvoice,
+            'invoiced' => $createdInvoice,
         ],200);
     }
 }

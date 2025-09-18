@@ -75,10 +75,17 @@ Route::prefix('v1')->group(function () {
         // });
 
         // Payfusion 
-        route::post('/tokens', [PayfusionController::class, 'createPaymentToken']);
-        route::post('/payments', [PayfusionController::class, 'createPaymentRequest']);
+        // Token
+        route::post('/payfusion-tokens', [PayfusionController::class, 'createPaymentToken']);
+        route::get('/payfusion-tokens/{requestId}', [PayfusionController::class, 'getPaymentToken']);
+        // Payment
+        route::post('/payfusion-payments', [PayfusionController::class, 'createPaymentRequest']);
+        route::get('/payfusion-payments/{requestId}', [PayfusionController::class, 'getPaymentRequest']);
+        route::post('/payfusion-payments/{requestId}/capture', [PayfusionController::class, 'capturePaymentRequest']);
+        // Invoice
         route::get('/payfusion-invoices', [PayfusionController::class, 'listOfInvoices']);
-        route::post('/invoices', [PayfusionController::class, 'createInvoice']);
+        Route::get('/payfusion-invoices/{invoiceId}', [PayfusionController::class,'showInvoice']);
+        route::post('/payfusion-invoices', [PayfusionController::class, 'createInvoice']);
     });
 });
 
