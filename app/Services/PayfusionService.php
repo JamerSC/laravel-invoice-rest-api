@@ -54,8 +54,40 @@ class PayfusionService
         // generate UUID v4 for idempotency key
         $idempotencyKey = (string) Str::uuid();
 
-        return Http::withHeaders($this->headers($idempotencyKey)
-        )->post($url, $data)->json();
+
+        try 
+        {
+            $response = Http::withHeaders($this->headers($idempotencyKey))
+                ->post($url, [
+                    'reference_id'       => $data['reference_id'],
+                    'channel_code'       => $data['channel_code'],
+                    'first_name'         => $data['first_name'],
+                    'last_name'          => $data['last_name'],
+                    'email'              => $data['email'],
+                    'payment_token_id'   => $data['payment_token_id'] ?? null,
+                    'amount'             => $data['amount'],
+                    'success_return_url' => $data['success_return_url'],
+                    'failure_return_url' => $data['failure_return_url'],
+                    'cancel_return_url'  => $data['cancel_return_url'],
+                    'description'        => $data['description'] ?? null,
+                ]);
+
+            if ($response->failed()) {
+                // You can also log the error here for debugging
+                throw new \Exception("Payfusion API error: " . $response->body());
+            }
+
+            return $response->json();
+        } 
+        catch (\Exception $e) 
+        {
+            return [
+                'success' => false,
+                'error'   => $e->getMessage(),
+            ];
+        }
+        // return Http::withHeaders($this->headers($idempotencyKey)
+        // )->post($url, $data)->json();
     }
 
     // Get Payment

@@ -36,4 +36,10 @@ return [
         'mode'     => env('PAYFUSION_MODE'),
         'base_url' => env('PAYFUSION_BASE_URL'),
     ],
+
+    'infobip' => [
+        'key'=> env('INFOBIP_API_KEY'),
+        'base_url' => env('INFOBIP_BASE_URL'),
+        'sender'=> env('INFOBIP_SENDER'),
+    ],
 ];

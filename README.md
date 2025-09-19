@@ -298,7 +298,7 @@
 -   b. Generate an API Key (will be used in .env file)
 -   c. Webhooks
 -   Integrate Payfusion in Laravel API Project
--   # Configure `.env file`:
+-   # Add Payfusion Credentials in `.env file`:
 -   Payfusion Payment Integration
 -   PAYFUSION_API_KEY=CvFLKK3g8i2WcLMJBCXQZ\***\*\*\*\*\*\***
 -   PAYFUSION_MODE=sandbox # or live
@@ -318,11 +318,53 @@
 -   Create Requests Class for Token, Payment, & Invoice - for validation
 -   Test Get List of Invoices
 
-### September 17, 2025 - Cont. Payfusion API integration
+### September 18, 2025 - Cont. Payfusion API integration
 
 -   Payfusion requires an Idempotency-Key header on payment request calls (to prevent duplicate charges if a request is retried).
 -   In PayfusionService Add Idempotency-Key Header `'Idempotency-Key' => $idempotencyKey ?? (string) Str::uuid(),`
 -   createPaymentRequest() // generate UUID v4 for idempotency key (next to url)
 -   Can create invoice, get invoice by id, & get list of invoice
 
-2. M360: `https://www.m360.com.ph/`
+-   # Note: Need to create a Merchant Account
+
+### September 19, 2025 - Third-Party API integration SMS SMS Gateway
+
+1. M360: `https://www.m360.com.ph/`
+
+-   Note: Need to communicate with sales
+
+2. Semaphore Sms gateway `https://semaphore.co/`
+
+-   Note: No free messages, need to buy credits for testing
+
+3. Infobip `https://www.infobip.com/`
+
+-   Infobip API PHP Client `https://github.com/infobip/infobip-api-php-client`
+-   Install SDK `composer require infobip/infobip-api-php-client:^4.0`
+
+-   ## Add Infobip Credentials in `.env file`
+-   INFOBIP_API_KEY=67ac96be4b0ec09ad53a45c4621b82ee-10fe3b30-**\*\***
+-   INFOBIP_BASE_URL=**\*\***.api.infobip.com
+-   INFOBIP_SENDER=NBJamer
+
+-   ### Configure config > services.php
+-   'infobip' => [
+-   'key'=> env('INFOBIP_API_KEY'),
+-   'base_url' => env('INFOBIP_BASE_URL'),
+-   'sender'=> env('INFOBIP_SENDER'),
+-   ],
+
+-   Create InfoBipSmsService Class
+-   ### Add new service `New-Item -Path "app/Services/InfoBipSmsService.php" -ItemType File`
+-   Add constructor, send fxn, & format local number fxn
+-   Create SmsController Class
+-   `php artisan make:controller Api\V1\SmsController`
+-   Update `routes > api.php` add post method for SmsController send()
+-   Terminal... `Optimize & Serve`
+
+### summary
+
+-   .env → stores credentials
+-   config/services.php → central config registry
+-   InfobipService → service layer
+-   SmsController → API controller

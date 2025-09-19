@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\FileUploadController;
 use App\Http\Controllers\Api\V1\InvoiceController;
 use App\Http\Controllers\Api\V1\PayfusionController;
+use App\Http\Controllers\Api\V1\SmsController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -74,7 +75,7 @@ Route::prefix('v1')->group(function () {
         //     ]);
         // });
 
-        // Payfusion 
+        // Payfusion API Routes
         // Token
         route::post('/payfusion-tokens', [PayfusionController::class, 'createPaymentToken']);
         route::get('/payfusion-tokens/{requestId}', [PayfusionController::class, 'getPaymentToken']);
@@ -86,6 +87,9 @@ Route::prefix('v1')->group(function () {
         route::get('/payfusion-invoices', [PayfusionController::class, 'listOfInvoices']);
         Route::get('/payfusion-invoices/{invoiceId}', [PayfusionController::class,'showInvoice']);
         route::post('/payfusion-invoices', [PayfusionController::class, 'createInvoice']);
+
+        // Infobip API route
+        route::post('/infobip-send-sms', [SmsController::class, 'sendMessage']);
     });
 });
 
